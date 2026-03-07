@@ -1,0 +1,122 @@
+# 故事森林后端服务配置
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: story-forest-backend
+
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/story_forest?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: StoryForest-HikariCP
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+  # JPA 配置
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  # Redis 配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  # Jackson 配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    serialization:
+      write-dates-as-timestamps: false
+
+# JWT 配置
+jwt:
+  secret: "story-forest-secret-key-2026-children-interactive-story-platform"
+  expiration: 604800000  # 7 天 (毫秒)
+  refresh-expiration: 2592000000  # 30 天 (毫秒)
+  header: Authorization
+  prefix: "Bearer "
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.storyforest: DEBUG
+    org.springframework.security: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# 跨域配置
+cors:
+  allowed-origins:
+    - http://localhost:5173
+    - http://localhost:3000
+    - https://yourdomain.com
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+  allowed-headers: "*"
+  allow-credentials: true
+  max-age: 3600
+
+# SpringDoc / OpenAPI 配置
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operations-sorter: tag
+    tags-sorter: alpha
+    doc-expansion: none
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+# 文件上传配置
+file:
+  upload:
+    path: ./uploads
+  max-size: 10485760  # 10MB
+
+# 腾讯云 COS 配置 (可选)
+tencent:
+  cos:
+    secret-id: ${TENCENT_COS_SECRET_ID:}
+    secret-key: ${TENCENT_COS_SECRET_KEY:}
+    bucket: ${TENCENT_COS_BUCKET:}
+    region: ap-guangzhou
+
+# 腾讯云 TTS 配置 (可选)
+tencent:
+  tts:
+    secret-id: ${TENCENT_TTS_SECRET_ID:}
+    secret-key: ${TENCENT_TTS_SECRET_KEY:}
+    appid: ${TENCENT_TTS_APPID:}

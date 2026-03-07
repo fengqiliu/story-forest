@@ -1,0 +1,282 @@
+/**
+ * Material 3 Card Component
+ * 卡片组件样式 - 基于 Material Design 3 规范
+ */
+
+@import './md3-theme.scss';
+
+// ==================== 卡片基础样式 ====================
+
+.md-card {
+  // 布局
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  // 外观
+  background-color: $md-surface-container-high;
+  border-radius: $md-radius-card;
+  overflow: hidden;
+
+  // 动画
+  @include md-transition-standard;
+}
+
+// ==================== 卡片变体 ====================
+
+// 轮廓式卡片 (Outlined Card)
+.md-card--outlined {
+  background-color: $md-surface-container-high;
+  border: 1px solid $md-outline-variant;
+  @include md-elevation-0;
+
+  &:hover {
+    @include md-elevation-2;
+  }
+}
+
+// 实心卡片 (Elevated Card)
+.md-card--elevated {
+  @include md-elevation-1;
+
+  &:hover {
+    @include md-elevation-3;
+  }
+}
+
+// 填充式卡片 (Filled Card)
+.md-card--filled {
+  background-color: $md-surface-container;
+  border: none;
+  @include md-elevation-0;
+
+  &:hover {
+    @include md-elevation-1;
+  }
+}
+
+//  Tonal 卡片
+.md-card--tonal {
+  background-color: $md-secondary-container;
+  color: $md-on-secondary-container;
+  border: none;
+  @include md-elevation-0;
+
+  &:hover {
+    @include md-elevation-1;
+  }
+}
+
+// ==================== 卡片媒体区域 ====================
+
+.md-card__media {
+  position: relative;
+  width: 100%;
+  background-color: $md-surface-container;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // 媒体覆盖层
+  .md-card__media-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+  }
+}
+
+// 媒体尺寸变体
+.md-card__media--square {
+  aspect-ratio: 1 / 1;
+}
+
+.md-card__media--wide {
+  aspect-ratio: 16 / 9;
+}
+
+.md-card__media--tall {
+  aspect-ratio: 3 / 4;
+}
+
+// ==================== 卡片内容区域 ====================
+
+.md-card__content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+// ==================== 卡片标题 ====================
+
+.md-card__title {
+  @include md-title-large;
+  color: $md-on-surface;
+  margin: 0;
+
+  &.md-card__title--large {
+    @include md-headline-small;
+  }
+}
+
+// ==================== 卡片副标题 ====================
+
+.md-card__subtitle {
+  @include md-body-medium;
+  color: $md-on-surface-variant;
+  margin: 0;
+}
+
+// ==================== 卡片支持文本 ====================
+
+.md-card__supporting-text {
+  @include md-body-medium;
+  color: $md-on-surface-variant;
+  line-height: 1.5;
+
+  &.md-card__supporting-text--large {
+    @include md-body-large;
+  }
+}
+
+// ==================== 卡片操作区域 ====================
+
+.md-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 16px 16px;
+
+  &.md-card__actions--vertical {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+// ==================== 卡片图标 ====================
+
+.md-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $md-radius-full;
+  background-color: $md-primary-container;
+  color: $md-on-primary-container;
+
+  &.md-card__icon--small {
+    width: 32px;
+    height: 32px;
+  }
+
+  .md-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// ==================== 卡片头部（图标 + 标题） ====================
+
+.md-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+
+  &.md-card__header--horizontal {
+    flex-direction: row;
+  }
+
+  &.md-card__header--vertical {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.md-card__header-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+// ==================== 可点击卡片 ====================
+
+.md-card--clickable {
+  cursor: pointer;
+
+  &:hover {
+    @include md-elevation-3;
+  }
+
+  &:active {
+    @include md-elevation-1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: transparent;
+    transition: background-color $md-duration-short-2 $md-easing-standard;
+  }
+
+  &:hover::after {
+    background-color: $md-state-hover;
+  }
+
+  &:active::after {
+    background-color: $md-state-pressed;
+  }
+}
+
+// ==================== 选择式卡片 (Selectable Card) ====================
+
+.md-card--selectable {
+  &.md-selected {
+    outline: 2px solid $md-primary;
+    outline-offset: 2px;
+
+    .md-card__icon {
+      background-color: $md-primary;
+      color: $md-on-primary;
+    }
+  }
+}
+
+// ==================== 卡片内芯片 ====================
+
+.md-card__chip {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+// ==================== 响应式调整 ====================
+
+@media (max-width: 599px) {
+  .md-card__content {
+    padding: 12px;
+  }
+
+  .md-card__actions {
+    padding: 8px 12px 12px;
+  }
+
+  .md-card__title {
+    @include md-title-medium;
+  }
+}

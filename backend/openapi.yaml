@@ -1,0 +1,568 @@
+openapi: 3.0.3
+info:
+  title: 故事森林 API
+  description: |
+    ## 故事森林后端 API 文档
+    
+    面向 3-10 岁儿童的互动式故事阅读平台后端 API。
+    
+    ### 认证说明
+    大部分接口需要 JWT Token 认证，在请求头中携带：
+    ```
+    Authorization: Bearer <your_access_token>
+    ```
+    
+    ### 响应格式
+    所有接口统一返回格式：
+    ```json
+    {
+      "code": 0,
+      "message": "success",
+      "data": {}
+    }
+    ```
+    
+    ### 错误码说明
+    - `0`: 成功
+    - `400`: 请求参数错误
+    - `401`: 未授权/Token 无效
+    - `403`: 权限不足
+    - `404`: 资源不存在
+    - `500`: 服务器内部错误
+  version: 1.0.0
+  contact:
+    name: 故事森林团队
+    email: support@storyforest.com
+  license:
+    name: Copyright © 2026 故事森林
+servers:
+  - url: http://localhost:8080/api
+    description: 本地开发环境
+  - url: https://api.storyforest.com/api
+    description: 生产环境
+  - url: https://test-api.storyforest.com/api
+    description: 测试环境
+tags:
+  - name: 认证管理
+    description: 用户登录、注册、Token 刷新等认证相关接口
+  - name: 故事管理
+    description: 故事列表、详情、搜索、推荐等故事相关接口
+paths:
+  /auth/login:
+    post:
+      tags:
+        - 认证管理
+      summary: 用户登录
+      description: 使用手机号和密码登录，返回 JWT Token 和用户信息
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_AuthResponse'
+        '400':
+          description: 请求参数错误
+        '401':
+          description: 认证失败（手机号或密码错误）
+        '500':
+          description: 服务器内部错误
+  /auth/register:
+    post:
+      tags:
+        - 认证管理
+      summary: 用户注册
+      description: 使用手机号、验证码和密码注册新用户，注册成功后自动登录
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: 注册成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_AuthResponse'
+        '400':
+          description: 请求参数错误或验证码错误
+        '500':
+          description: 服务器内部错误
+  /auth/refresh:
+    post:
+      tags:
+        - 认证管理
+      summary: 刷新 Token
+      description: 使用刷新 Token 获取新的访问 Token
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Token 刷新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_AuthResponse'
+        '401':
+          description: 刷新 Token 无效或已过期
+  /auth/logout:
+    post:
+      tags:
+        - 认证管理
+      summary: 退出登录
+      description: 用户退出登录，清除认证状态
+      operationId: logout
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 退出成功
+        '401':
+          description: 未授权
+  /auth/code:
+    post:
+      tags:
+        - 认证管理
+      summary: 发送验证码
+      description: 向指定手机号发送短信验证码
+      operationId: sendCode
+      parameters:
+        - name: phone
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "13800138001"
+      responses:
+        '200':
+          description: 验证码发送成功
+        '400':
+          description: 手机号格式错误
+  /auth/code/verify:
+    post:
+      tags:
+        - 认证管理
+      summary: 验证验证码
+      description: 验证短信验证码是否正确
+      operationId: verifyCode
+      parameters:
+        - name: phone
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "13800138001"
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "123456"
+      responses:
+        '200':
+          description: 验证成功
+        '400':
+          description: 验证码错误或已过期
+  /stories:
+    get:
+      tags:
+        - 故事管理
+      summary: 获取故事列表
+      description: 分页获取故事列表，支持排序
+      operationId: getStories
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: 页码（从 0 开始）
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: 每页数量
+        - name: sort
+          in: query
+          schema:
+            type: string
+            default: playCount
+          description: 排序字段
+        - name: direction
+          in: query
+          schema:
+            type: string
+            default: desc
+            enum: [asc, desc]
+          description: 排序方向
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_Page_Story'
+  /stories/featured:
+    get:
+      tags:
+        - 故事管理
+      summary: 获取首页精选
+      description: 获取首页今日精选故事（3 个）
+      operationId: getFeaturedStories
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Story'
+  /stories/{id}:
+    get:
+      tags:
+        - 故事管理
+      summary: 获取故事详情
+      description: 根据故事 ID 获取详细信息
+      operationId: getStoryDetail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_Story'
+        '404':
+          description: 故事不存在
+  /stories/{id}/play:
+    post:
+      tags:
+        - 故事管理
+      summary: 增加播放次数
+      description: 记录故事播放，增加播放计数
+      operationId: incrementPlayCount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: 成功
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT Token 认证，格式：Bearer <token>
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 响应码 (0=成功，其他=失败)
+          example: 0
+        message:
+          type: string
+          description: 响应消息
+          example: success
+        data:
+          type: object
+          description: 响应数据
+          nullable: true
+    ApiResponse_AuthResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/AuthResponse'
+    ApiResponse_Story:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Story'
+    ApiResponse_Page_Story:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Page_Story'
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: 访问 Token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        refreshToken:
+          type: string
+          description: 刷新 Token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        tokenType:
+          type: string
+          description: Token 类型
+          example: Bearer
+          default: Bearer
+        expiresIn:
+          type: integer
+          description: 过期时间（秒）
+          example: 604800
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+    UserInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 用户 ID
+          example: 1
+        phone:
+          type: string
+          description: 手机号
+          example: "13800138001"
+        nickname:
+          type: string
+          description: 昵称
+          example: "快乐小书虫"
+        avatar:
+          type: string
+          description: 头像 URL
+        ageGroup:
+          type: string
+          description: 年龄段
+          example: "5-6 岁"
+        isVip:
+          type: boolean
+          description: 是否 VIP
+          example: false
+        points:
+          type: integer
+          description: 积分
+          example: 100
+        totalReadingMinutes:
+          type: integer
+          description: 总阅读时长（分钟）
+          example: 0
+        completedStories:
+          type: integer
+          description: 已完成故事数量
+          example: 0
+    LoginRequest:
+      type: object
+      required:
+        - phone
+        - password
+      properties:
+        phone:
+          type: string
+          description: 手机号
+          pattern: "^1[3-9]\\d{9}$"
+          example: "13800138001"
+        password:
+          type: string
+          description: 密码
+          minLength: 6
+          maxLength: 20
+          example: "123456"
+    RegisterRequest:
+      type: object
+      required:
+        - phone
+        - code
+        - password
+      properties:
+        phone:
+          type: string
+          description: 手机号
+          pattern: "^1[3-9]\\d{9}$"
+          example: "13800138001"
+        code:
+          type: string
+          description: 短信验证码
+          pattern: "^\\d{6}$"
+          example: "123456"
+        password:
+          type: string
+          description: 密码
+          minLength: 6
+          maxLength: 20
+          example: "123456"
+        nickname:
+          type: string
+          description: 昵称
+          maxLength: 50
+          example: "快乐小书虫"
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: 刷新 Token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    Story:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 故事 ID
+          example: 1
+        title:
+          type: string
+          description: 故事标题
+          example: "小红帽"
+        subtitle:
+          type: string
+          description: 副标题
+          example: "经典童话故事"
+        coverImage:
+          type: string
+          description: 封面图 URL
+        description:
+          type: string
+          description: 故事简介
+        ageGroup:
+          type: string
+          description: 年龄段
+          example: "5-6 岁"
+        category:
+          type: string
+          description: 主题分类
+          example: "童话故事"
+        durationType:
+          type: string
+          description: 时长分类
+          example: "short"
+          enum: [short, medium, long]
+        readingMinutes:
+          type: integer
+          description: 预计阅读时长（分钟）
+          example: 5
+        chapterCount:
+          type: integer
+          description: 章节数量
+          example: 3
+        playCount:
+          type: integer
+          description: 播放次数
+          example: 1000
+        favoriteCount:
+          type: integer
+          description: 收藏次数
+          example: 200
+        averageRating:
+          type: number
+          description: 平均评分
+          example: 4.5
+        isRecommended:
+          type: boolean
+          description: 是否推荐
+          example: true
+        isVip:
+          type: boolean
+          description: 是否 VIP 专享
+          example: false
+        status:
+          type: string
+          description: 状态
+          example: PUBLISHED
+          enum: [DRAFT, PUBLISHED, ARCHIVED]
+        createdAt:
+          type: string
+          format: date-time
+          description: 创建时间
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新时间
+    Page_Story:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Story'
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        totalElements:
+          type: integer
+          description: 总元素数
+        totalPages:
+          type: integer
+          description: 总页数
+        size:
+          type: integer
+          description: 每页大小
+        number:
+          type: integer
+          description: 当前页码
+        first:
+          type: boolean
+          description: 是否第一页
+        last:
+          type: boolean
+          description: 是否最后一页
+        empty:
+          type: boolean
+          description: 是否为空
+    Pageable:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          description: 页码
+        pageSize:
+          type: integer
+          description: 每页大小
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sort'
+    Sort:
+      type: object
+      properties:
+        property:
+          type: string
+          description: 排序属性
+        direction:
+          type: string
+          description: 排序方向
+          enum: [ASC, DESC]

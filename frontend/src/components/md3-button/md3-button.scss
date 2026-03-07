@@ -1,0 +1,379 @@
+/**
+ * Material 3 Button Component
+ * 按钮组件样式 - 基于 Material Design 3 规范
+ */
+
+@import './md3-theme.scss';
+
+// ==================== 按钮基础样式 ====================
+
+.md-button {
+  // 布局
+  display: inline-inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  // 尺寸
+  height: 40px;
+  padding: 0 24px;
+
+  // 字体
+  @include md-label-large;
+
+  // 外观
+  border: none;
+  border-radius: $md-radius-button;
+  cursor: pointer;
+
+  // 动画
+  @include md-transition-standard;
+
+  // 图标
+  .md-button-icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // 禁用状态
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.38;
+  }
+
+  // 聚焦状态
+  &:focus-visible {
+    outline: 2px solid $md-primary;
+    outline-offset: 2px;
+  }
+}
+
+// ==================== 实心按钮 (Filled Button) ====================
+// 主要操作、最重要按钮
+
+.md-button--filled {
+  background-color: $md-primary;
+  color: $md-on-primary;
+  @include md-elevation-2;
+
+  &:hover:not(:disabled) {
+    box-shadow: $md-elevation-3;
+    background-color: #1B4332;
+  }
+
+  &:active:not(:disabled) {
+    box-shadow: $md-elevation-1;
+  }
+
+  &:disabled {
+    background-color: $md-on-surface-variant;
+    color: $md-on-surface;
+  }
+}
+
+// ==================== 边框按钮 (Outlined Button) ====================
+// 次要操作、中等优先级
+
+.md-button--outlined {
+  background-color: transparent;
+  color: $md-primary;
+  border: 1px solid $md-outline;
+
+  &:hover:not(:disabled) {
+    background-color: $md-state-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $md-state-pressed;
+  }
+
+  &:disabled {
+    border-color: $md-outline-variant;
+    color: $md-on-surface-variant;
+  }
+}
+
+// ==================== 文字按钮 (Text Button) ====================
+// 低优先级操作、对话框内
+
+.md-button--text {
+  background-color: transparent;
+  color: $md-primary;
+  padding: 0 12px;
+
+  &:hover:not(:disabled) {
+    background-color: $md-state-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $md-state-pressed;
+  }
+
+  &:disabled {
+    color: $md-on-surface-variant;
+  }
+}
+
+// ==================== 包含按钮 (Contained Button) ====================
+// 中等优先级、带容器背景
+
+.md-button--contained {
+  background-color: $md-primary-container;
+  color: $md-on-primary-container;
+
+  &:hover:not(:disabled) {
+    background-color: darken($md-primary-container, 10%);
+  }
+
+  &:active:not(:disabled) {
+    background-color: darken($md-primary-container, 15%);
+  }
+}
+
+// ==================== 开关按钮 (Segmented Button) ====================
+
+.md-button--segmented {
+  background-color: $md-surface;
+  color: $md-on-surface-variant;
+  border: 1px solid $md-outline;
+  border-radius: 8px;
+
+  &.md-selected {
+    background-color: $md-secondary-container;
+    color: $md-on-secondary-container;
+    border-color: transparent;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: $md-state-hover;
+  }
+
+  &.md-selected:hover {
+    background-color: darken($md-secondary-container, 5%);
+  }
+}
+
+// ==================== FAB (悬浮动作按钮) ====================
+
+.md-fab {
+  // 布局
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  // 尺寸
+  width: 56px;
+  height: 56px;
+
+  // 外观
+  background-color: $md-primary-container;
+  color: $md-on-primary-container;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+
+  // 阴影
+  @include md-elevation-3;
+
+  // 动画
+  @include md-transition-emphasized;
+
+  // 图标
+  .md-fab-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  // 状态
+  &:hover:not(:disabled) {
+    @include md-elevation-4;
+    transform: translateY(-2px);
+  }
+
+  &:active:not(:disabled) {
+    @include md-elevation-2;
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background-color: $md-on-surface-variant;
+    color: $md-on-surface;
+    @include md-elevation-0;
+  }
+
+  // 小型 FAB
+  &.md-fab--small {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+
+    .md-fab-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  // 大型 FAB
+  &.md-fab--large {
+    width: 96px;
+    height: 56px;
+    border-radius: 16px;
+    padding: 0 24px;
+    justify-content: flex-start;
+    gap: 12px;
+
+    .md-fab-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+// ==================== 图标按钮 (Icon Button) ====================
+
+.md-icon-button {
+  // 布局
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  // 尺寸
+  width: 40px;
+  height: 40px;
+
+  // 外观
+  background-color: transparent;
+  border: none;
+  border-radius: $md-radius-full;
+  cursor: pointer;
+
+  // 图标
+  .md-icon-button__icon {
+    width: 24px;
+    height: 24px;
+    color: $md-on-surface-variant;
+  }
+
+  // 状态
+  &:hover:not(:disabled) {
+    background-color: $md-state-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $md-state-pressed;
+  }
+
+  &:disabled {
+    color: $md-on-surface-variant;
+    opacity: 0.38;
+  }
+
+  // 带填充的图标按钮
+  &.md-icon-button--filled {
+    background-color: $md-primary-container;
+
+    .md-icon-button__icon {
+      color: $md-on-primary-container;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: darken($md-primary-container, 10%);
+    }
+  }
+
+  // 标准权重图标按钮
+  &.md-icon-button--tonal {
+    background-color: $md-secondary-container;
+
+    .md-icon-button__icon {
+      color: $md-on-secondary-container;
+    }
+  }
+}
+
+// ==================== 按钮尺寸变体 ====================
+
+.md-button--small {
+  height: 32px;
+  padding: 0 16px;
+  @include md-label-medium;
+}
+
+.md-button--large {
+  height: 48px;
+  padding: 0 32px;
+  @include md-title-medium;
+}
+
+// ==================== 按钮组 ====================
+
+.md-button-group {
+  display: inline-flex;
+  gap: 8px;
+
+  &.md-button-group--vertical {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+// ==================== 扩展 FAB (Extended FAB) ====================
+
+.md-fab--extended {
+  width: auto;
+  padding: 0 20px;
+  gap: 12px;
+
+  .md-fab-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// ==================== 按钮加载状态 ====================
+
+.md-button--loading {
+  pointer-events: none;
+
+  .md-button__loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: md-button-spin 0.8s linear infinite;
+  }
+
+  .md-button__content {
+    opacity: 0;
+  }
+}
+
+@keyframes md-button-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// ==================== 响应式调整 ====================
+
+@media (max-width: 599px) {
+  .md-button--filled,
+  .md-button--outlined,
+  .md-button--text {
+    height: 36px;
+    padding: 0 16px;
+    @include md-label-medium;
+  }
+
+  .md-fab {
+    width: 48px;
+    height: 48px;
+  }
+}

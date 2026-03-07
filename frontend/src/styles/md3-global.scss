@@ -1,0 +1,340 @@
+/**
+ * Material Design 3 Components - Global Styles
+ * 全局样式入口文件
+ */
+
+// 引入设计令牌
+@import './md3-theme.scss';
+
+// 引入组件样式
+@import '../components/md3-button/md3-button.scss';
+@import '../components/md3-input/md3-input.scss';
+@import '../components/md3-card/md3-card.scss';
+
+// ==================== 全局重置 ====================
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: $md-font-family;
+  font-size: $md-body-large-size;
+  line-height: $md-body-large-line-height;
+  font-weight: $md-body-large-weight;
+  color: $md-on-surface;
+  background-color: $md-surface;
+}
+
+// ==================== 链接样式 ====================
+
+a {
+  color: $md-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ==================== 标题样式 ====================
+
+h1 {
+  @include md-display-small;
+  color: $md-on-surface;
+}
+
+h2 {
+  @include md-headline-large;
+  color: $md-on-surface;
+}
+
+h3 {
+  @include md-headline-medium;
+  color: $md-on-surface;
+}
+
+h4 {
+  @include md-headline-small;
+  color: $md-on-surface;
+}
+
+h5 {
+  @include md-title-large;
+  color: $md-on-surface;
+}
+
+h6 {
+  @include md-title-medium;
+  color: $md-on-surface;
+}
+
+// ==================== 文本样式 ====================
+
+p {
+  @include md-body-large;
+  color: $md-on-surface-variant;
+}
+
+small {
+  @include md-body-small;
+}
+
+.text-display-large {
+  @include md-display-large;
+}
+
+.text-display-medium {
+  @include md-display-medium;
+}
+
+.text-display-small {
+  @include md-display-small;
+}
+
+.text-headline-large {
+  @include md-headline-large;
+}
+
+.text-headline-medium {
+  @include md-headline-medium;
+}
+
+.text-headline-small {
+  @include md-headline-small;
+}
+
+.text-title-large {
+  @include md-title-large;
+}
+
+.text-title-medium {
+  @include md-title-medium;
+}
+
+.text-title-small {
+  @include md-title-small;
+}
+
+.text-body-large {
+  @include md-body-large;
+}
+
+.text-body-medium {
+  @include md-body-medium;
+}
+
+.text-body-small {
+  @include md-body-small;
+}
+
+.text-label-large {
+  @include md-label-large;
+}
+
+.text-label-medium {
+  @include md-label-medium;
+}
+
+.text-label-small {
+  @include md-label-small;
+}
+
+// ==================== 颜色工具类 ====================
+
+.text-primary {
+  color: $md-primary;
+}
+
+.text-on-primary {
+  color: $md-on-primary;
+}
+
+.text-secondary {
+  color: $md-secondary;
+}
+
+.text-on-secondary {
+  color: $md-on-secondary;
+}
+
+.text-tertiary {
+  color: $md-tertiary;
+}
+
+.text-on-tertiary {
+  color: $md-on-tertiary;
+}
+
+.text-error {
+  color: $md-error;
+}
+
+.text-on-error {
+  color: $md-on-error;
+}
+
+.text-surface {
+  color: $md-surface;
+}
+
+.text-on-surface {
+  color: $md-on-surface;
+}
+
+.text-on-surface-variant {
+  color: $md-on-surface-variant;
+}
+
+// ==================== 背景工具类 ====================
+
+.bg-primary {
+  background-color: $md-primary;
+}
+
+.bg-secondary {
+  background-color: $md-secondary;
+}
+
+.bg-tertiary {
+  background-color: $md-tertiary;
+}
+
+.bg-surface {
+  background-color: $md-surface;
+}
+
+.bg-surface-container {
+  background-color: $md-surface-container;
+}
+
+.bg-primary-container {
+  background-color: $md-primary-container;
+}
+
+.bg-secondary-container {
+  background-color: $md-secondary-container;
+}
+
+.bg-tertiary-container {
+  background-color: $md-tertiary-container;
+}
+
+// ==================== 阴影工具类 ====================
+
+.elevation-0 {
+  @include md-elevation-0;
+}
+
+.elevation-1 {
+  @include md-elevation-1;
+}
+
+.elevation-2 {
+  @include md-elevation-2;
+}
+
+.elevation-3 {
+  @include md-elevation-3;
+}
+
+.elevation-4 {
+  @include md-elevation-4;
+}
+
+.elevation-5 {
+  @include md-elevation-5;
+}
+
+// ==================== 圆角工具类 ====================
+
+.radius-none {
+  border-radius: $md-radius-none;
+}
+
+.radius-xs {
+  border-radius: $md-radius-xs;
+}
+
+.radius-sm {
+  border-radius: $md-radius-sm;
+}
+
+.radius-md {
+  border-radius: $md-radius-md;
+}
+
+.radius-lg {
+  border-radius: $md-radius-lg;
+}
+
+.radius-xl {
+  border-radius: $md-radius-xl;
+}
+
+.radius-full {
+  border-radius: $md-radius-full;
+}
+
+// ==================== 间距工具类 ====================
+
+.spacing-xs {
+  margin: $md-spacing-xs;
+}
+
+.spacing-sm {
+  margin: $md-spacing-sm;
+}
+
+.spacing-md {
+  margin: $md-spacing-md;
+}
+
+.spacing-lg {
+  margin: $md-spacing-lg;
+}
+
+.spacing-xl {
+  margin: $md-spacing-xl;
+}
+
+// ==================== 布局工具类 ====================
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $md-spacing-page-padding;
+}
+
+.page-padding {
+  padding: $md-spacing-page-padding;
+}
+
+// ==================== 响应式工具类 ====================
+
+@media (max-width: 599px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1023px) {
+  .hide-on-tablet {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hide-on-desktop {
+    display: none !important;
+  }
+}

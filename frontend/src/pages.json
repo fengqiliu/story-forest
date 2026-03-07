@@ -1,0 +1,184 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+      "^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+      "^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/splash/splash",
+      "style": {
+        "navigationBarTitleText": "故事森林",
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#2D6A4F"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#FFFBF0"
+      }
+    },
+    {
+      "path": "pages/register/register",
+      "style": {
+        "navigationBarTitleText": "注册",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/age-select/age-select",
+      "style": {
+        "navigationBarTitleText": "选择年龄",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "故事森林",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/category/category",
+      "style": {
+        "navigationBarTitleText": "故事分类",
+        "navigationBarBackgroundColor": "#2D6A4F",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/story-detail/story-detail",
+      "style": {
+        "navigationBarTitleText": "故事详情",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/reading/reading",
+      "style": {
+        "navigationBarTitleText": "阅读中",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/quiz/quiz",
+      "style": {
+        "navigationBarTitleText": "答题闯关",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/dubbing/dubbing",
+      "style": {
+        "navigationBarTitleText": "角色配音",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/user/user",
+      "style": {
+        "navigationBarTitleText": "个人中心",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/parent/parent",
+      "style": {
+        "navigationBarTitleText": "家长中心",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/settings/settings",
+      "style": {
+        "navigationBarTitleText": "设置",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/points-mall/points-mall",
+      "style": {
+        "navigationBarTitleText": "积分商城",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/achievement/achievement",
+      "style": {
+        "navigationBarTitleText": "我的成就",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/user-agreement/user-agreement",
+      "style": {
+        "navigationBarTitleText": "用户协议",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/privacy-policy/privacy-policy",
+      "style": {
+        "navigationBarTitleText": "隐私政策",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/material-demo/material-demo",
+      "style": {
+        "navigationBarTitleText": "Material 演示",
+        "navigationBarBackgroundColor": "#FFFBF0",
+        "navigationBarTextStyle": "black"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "故事森林",
+    "navigationBarBackgroundColor": "#FFFBF0",
+    "backgroundColor": "#FFFBF0"
+  },
+  "tabBar": {
+    "color": "#94B49F",
+    "selectedColor": "#2D6A4F",
+    "borderStyle": "black",
+    "backgroundColor": "#FFFBF0",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/category/category",
+        "text": "故事库"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "任务"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的"
+      }
+    ]
+  }
+}
