@@ -51,14 +51,21 @@ mvn spring-boot:run
 mvn test                          # Run all tests
 mvn test -Dtest=ClassName        # Run specific test class
 mvn clean package                 # Build JAR
+java -jar target/story-forest-backend-1.0.0-SNAPSHOT.jar
 ```
+
+### Test Accounts
+| Phone | Password | Role |
+|-------|----------|------|
+| 13800138001 | 123456 | Regular user |
+| 13800138002 | 123456 | VIP user |
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|------------|
 | Frontend | uni-app 3.x (Vue 3), Pinia, uView Plus, Vite 4.5, Sass |
-| Backend | Spring Boot 3.2.0, JDK 17, Spring Security, Spring Data JPA |
+| Backend | Spring Boot 3.2.0, JDK 21, Spring Security, Spring Data JPA |
 | Database | MySQL 8.0 (prod), H2 (dev), Redis 7.0 |
 | Auth | JWT with Spring Security |
 | Docs | SpringDoc OpenAPI 3.0 (Swagger UI) |
@@ -99,6 +106,15 @@ Frontend (uni-app) ──HTTP/REST──► Backend (Spring Boot)
 - **Auth Header**: `Authorization: Bearer <JWT_TOKEN>`
 - **Response Format**: `{ "code": 0, "message": "success", "data": {} }`
 
+### API Response Codes
+| code | meaning |
+|------|---------|
+| 0 | success |
+| 401 | unauthorized |
+| 403 | forbidden |
+| 404 | not found |
+| 500 | server error |
+
 ## Design System
 
 Material Design 3 implementation in `frontend/src/styles/`:
@@ -116,6 +132,7 @@ Material Design 3 implementation in `frontend/src/styles/`:
 - Use `uni.` prefix for platform APIs (`uni.navigateTo`, `uni.request`, etc.)
 - Platform conditionals: `#ifdef MP-WEIXIN` / `#ifndef MP-WEIXIN`
 - H5 uses MD3 components; mini-program uses uView Plus
+- API layer in `utils/request.js` handles JWT token injection
 
 ### Pinia Stores
 - **useUserStore**: Auth state, token, age group (`store/user.js`)
